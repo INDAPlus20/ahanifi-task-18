@@ -24,7 +24,7 @@ fn create_magic_file(path: String) {
     const permutations: usize = 30 * 30 * 30;
     let mut indicies = [-1; permutations];
 
-    let mut word = Vec::<u8>::new();
+    let mut word_length=0usize;
     let mut current_word:Vec<u8>=vec![];
     let mut is_word = true;
     
@@ -35,7 +35,8 @@ fn create_magic_file(path: String) {
             b' ' => {
                 if is_word && prefix != current_word {
                     let index = calculate_index_from_byte(&prefix);
-                    indicies[index-1] = (i  - prefix.len()) as isize;
+                    indicies[index-1] = (i  - word_length) as isize;
+                    
                     // println!("{}", std::str::from_utf8(&prefix).unwrap());
                     // println!("{}",index);
                     // panic!();
@@ -43,11 +44,13 @@ fn create_magic_file(path: String) {
                 is_word = false;
             }
             b'\n' => {
+                word_length=0;
                 current_word=prefix.clone();
                 prefix.clear();
                 is_word = true;
             }
             byte => {
+                word_length+=1;
                 if is_word && prefix.len()<3{
                     prefix.push(*byte);
                 }

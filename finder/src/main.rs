@@ -75,7 +75,7 @@ fn main() {
                 reference.take(chunksize).read_to_end(&mut buf);
                 let decoded=WINDOWS_1252.decode(&buf).0.trim().replace("\n", "|");
                
-                println!("{}",decoded);
+                println!("... {} ...",decoded);
                 println!("----------------------------------");
                 
             }
