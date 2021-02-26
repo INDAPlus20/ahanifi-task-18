@@ -1,14 +1,24 @@
 use core::panic;
-use std::{cmp::min, fs::File};
+use std::{cmp::min, env, fs::File};
 use std::io::{BufRead, BufReader, Read};
 use std::{error::Error, io::Write, str::Chars, usize};
 
 use encoding_rs::WINDOWS_1252;
 use encoding_rs_io::DecodeReaderBytesBuilder;
+use env::args;
 
 fn main() {
-    create_magic_file("../index_file.txt".to_string());
-    //create_index_file("../token.txt".to_string());
+    let args: Vec<String> = env::args().collect();
+    match args.get(1){
+        Some(s) =>{
+            match s.trim() {
+                "index" => create_index_file("../token.txt".to_string()),
+                "magic" => create_magic_file("../index_file.txt".to_string()),
+                _ =>{},
+            }
+        }
+        None => {}
+    }
 }
 
 fn create_magic_file(path: String) {
